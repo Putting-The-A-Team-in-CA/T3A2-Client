@@ -34,10 +34,10 @@ const Nav = () => {
           <li className="p-4 flex-shrink-0">
             <Link to="/sign-in">Sign in</Link>
           </li>
-          <li>
+          <li className="p-4">
             <Link to="/register">Register</Link>
           </li>
-          <li>
+          <li className="p-4">
             <Link to="/login">Login</Link>
           </li>
         </ul>

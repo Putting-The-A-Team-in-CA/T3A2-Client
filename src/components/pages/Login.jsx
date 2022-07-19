@@ -6,22 +6,26 @@ import toast from "react-hot-toast";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [token, setToken] = useToken();
+  const [token, setToken] = useToken(); // [token state, setter function]
 
   // Login
   const onFinish = async (values) => {
-    try {
-      const response = await axios.post("/api/v1/login", values);
-      if (!response.data.error) {
-        toast.success(response.data.message);
-        console.log(response.data)
-        // navigate("/");
-      } else {
-        toast.error(response.data.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
+    // try {
+    //   const response = await axios.post(
+    //     "https://clinic-concierge.herokuapp.com/api/v1/login",
+    //     values
+    //   );
+    //   if (!response.data.error) {
+    //     toast.success(response.data.message);
+    //     console.log(response.data)
+    //     // navigate("/");
+    //   } else {
+    //     toast.error(response.data.message);
+    //   }
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    // }
+    console.log("finished")
   };
 
   return (
