@@ -2,6 +2,7 @@ import { DatePicker, Button, Dropdown, Menu } from "antd";
 import React, { useState, useEffect } from "react";
 import Header from "../Header";
 import TimeslotCard from "../TimeslotCard";
+import { useToken } from "../auth/useToken";
 
 const Bookings = () => {
   // dynamic data ("state")
@@ -10,10 +11,17 @@ const Bookings = () => {
   const [doctor, setDoctor] = useState(""); // represents doctor selected on dropdown
   const [dropdownItems, setDropdownItems] = useState(false);
   const [appointments, setAppointments] = useState(false);
+  const [token, setToken] = useToken();
 
   useEffect(() => {
     // get doctors info from API
-    fetch("https://clinic-concierge.herokuapp.com/api/v1/doctors/")
+    fetch("https://clinic-concierge.herokuapp.com/api/v1/doctors/", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": " application/json",
+        authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setDoctors(data);
@@ -25,7 +33,16 @@ const Bookings = () => {
 
   useEffect(() => {
     // get available appointments from API
-    fetch("https://clinic-concierge.herokuapp.com/api/v1/appointments?booked=false")
+    fetch(
+      "https://clinic-concierge.herokuapp.com/api/v1/appointments?booked=false",
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": " application/json",
+          authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setAppointments(data);
@@ -42,7 +59,14 @@ const Bookings = () => {
     const toTime = toDate.toJSON() || "";
     console.log(fromTime, toTime);
     fetch(
-      `https://clinic-concierge.herokuapp.com/api/v1/appointments?fromTime=${fromTime}&toTime=${toTime}&doctorId=${doctor}&booked=false`
+      `https://clinic-concierge.herokuapp.com/api/v1/appointments?fromTime=${fromTime}&toTime=${toTime}&doctorId=${doctor}&booked=false`,
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": " application/json",
+          authorization: `Bearer ${token}`,
+        },
+      }
     )
       .then((res) => res.json())
       .then((data) => {
@@ -95,8 +119,12 @@ const Bookings = () => {
             <ul className="pt-6">
               {appointments
                 ? appointments.map((item, index) => {
-                  return (
-                      <TimeslotCard item={item} index={index} doctors={doctors} />
+                    return (
+                      <TimeslotCard
+                        item={item}
+                        index={index}
+                        doctors={doctors}
+                      />
                     );
                   })
                 : "Loading..."}
